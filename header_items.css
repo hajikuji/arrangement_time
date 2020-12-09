@@ -1,0 +1,22 @@
+.arrangement-header-item {
+  display: flex;
+  align-items: center;
+}
+
+.arrangement-header-item .header-item-label {
+  margin-right: 8px;
+}
+.arrangement-header-item .el-date-editor.el-input, .el-date-editor.el-input__inner, .el-select {
+  width: 190px;
+}
+.arrangement-header-item .el-input__inner {
+  height: 30px;
+  line-height: 30px;
+}
+.arrangement-header-item .el-input__icon {
+  line-height: 30px;
+}
+
+.arrangement-header-item .el-input.is-disabled .el-input__inner {
+  color: #2e3233;
+}

@@ -1,0 +1,13 @@
+.arrangement-container {
+  padding-top: 28px;
+}
+
+.exam-container .exam-container-top {
+  display: flex;
+  align-items: flex-end;
+  margin: 28px 0;
+}
+
+.top-label {
+  margin-right: 15px;
+}
