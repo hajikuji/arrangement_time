@@ -5,204 +5,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>时间统筹</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <!-- 引入样式 -->
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  <!-- 引入组件库 -->
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="./plugins/vue.js"></script>
+  <link rel="stylesheet" href="./plugins/elementui/index.css">
+  <script src="./plugins/elementui/index.js"></script>
   <!-- 时间统筹总样式 -->
-  <link rel="stylesheet" href="./arrangement_time.css">
+  <link rel="stylesheet" href="./css/arrangement_time.css">
   <!-- 头部日期组件样式 -->
-  <link rel="stylesheet" href="./header_items.css">
+  <link rel="stylesheet" href="./css/header_items.css">
   <!-- 时间统筹tab切换样式 -->
-  <link rel="stylesheet" href="./arrangement_container.css">
+  <link rel="stylesheet" href="./css/arrangement_container.css">
   <!-- 时间统筹底部样式 -->
-  <link rel="stylesheet" href="./arrangement_footer.css">
+  <link rel="stylesheet" href="./css/arrangement_footer.css">
 </head>
 
 <body>
   <div id="arrangement_time" class="arrangement-time">
-    <div class="arrangement-header">
-      <header-item label="考试日期">
-        <el-date-picker v-model="examDateVal" type="date" placeholder="选择日期">
-        </el-date-picker>
-      </header-item>
-      <header-item label="考试时间">
-        <el-time-select v-model="examTimeVal" :picker-options="{
-          start: '08:30',
-          step: '00:15',
-          end: '18:30'
-        }" placeholder="选择时间">
-        </el-time-select>
-      </header-item>
-      <header-item id="restTimeVal" label="午休时间">
-        <el-time-select v-model="examTimeVal" :picker-options="{
-          start: '08:30',
-          step: '00:15',
-          end: '18:30'
-        }" placeholder="选择时间">
-        </el-time-select>
-      </header-item>
-      <div class="tips">注：午休时间内不允许安排场次</div>
-      <header-item class="ml0" label="考试时长">
-        <el-select v-model="examDurationVal" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </header-item>
-      <header-item label="考间休息">
-        <el-select v-model="examBreakVal" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </header-item>
-      <header-item label="持续天数">
-        <el-input placeholder="请输入内容" v-model="dayDurationVal" :disabled="true">
-        </el-input>
-      </header-item>
-    </div>
-    <div class="arrangement-container">
-      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="第一天" name="first">
-          <div class="exam-container">
-            <div class="exam-container-top">
-              <div class="top-label">选择考点</div>
-              <div>
-                <el-radio-group v-model="radio">
-                  <el-radio :label="3">上海泗泾中学</el-radio>
-                  <el-radio :label="6">上海外国语中学</el-radio>
-                  <el-radio :label="9">上海九亭中学</el-radio>
-                </el-radio-group>
-              </div>
-            </div>
-            <div>
-              <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="date" label="场次" width="180">
-                </el-table-column>
-                <el-table-column prop="name" label="考试时间" width="180">
-                </el-table-column>
-                <el-table-column prop="address" label="考生人数">
-                </el-table-column>
-              </el-table>
-            </div>
-            <div class="exam-container-content"></div>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="第二天" name="second">2</el-tab-pane>
-        <el-tab-pane label="第三天" name="third">3</el-tab-pane>
-        <el-tab-pane label="第三天" name="fourth">4</el-tab-pane>
-      </el-tabs>
-    </div>
-    <div class="arrangement-footer">
-      <div class="arrangement-footer-title">其他</div>
-      <div class="arrangement-footer-container">
-        <footer-field v-for="item in tips" :label="item.label" :content="item.content"></footer-field>
-      </div>
-    </div>
+    <arrangement-header :students="students" :seatnum="seatNum" :subjectnum="subjectNum"></arrangement-header>
+    <arrangement-container></arrangement-container>
+    <arrangement-footer></arrangement-footer>
   </div>
+  <script src="./plugins/qs.min.js"></script>
+  <script src="./plugins/axios.min.js"></script>
+  <script src="./src/utils/index.js"></script>
+  <script src="./src/components/header/header_item.js"></script>
+  <script src="./src/components/header/examtime_arrangement.js"></script>
+  <script src="./src/components/header/noonbreak_arrangement.js"></script>
+  <script src="./src/components/header/exambreak_arrangement.js"></script>
+  <script src="./src/components/header/examduration_arrangement.js"></script>
+  <script src="./src/components/header/examdate_arrangement.js"></script>
+  <script src="./src/components/arrangement_container.js"></script>
+  <script src="./src/components/arrangement_header.js"></script>
+  <script src="./src/components/arrangement_footer.js"></script>
   <script>
     // 时间统筹头部组件
-    Vue.component('header-item', {
-      data() {
-        return {
-        }
-      },
-      props: ["label"],
-      template: `
-      <div class="arrangement-header-item">
-        <label class="header-item-label">{{label}}:</label>
-        <div>
-          <slot></slot>
-        </div>
-      </div>
-      `
-    })
-    Vue.component('footer-field', {
-      data() {
-        return {}
-      },
-      props: ['label', 'content'],
-      template: `
-      <div class="arrangement-footer-content">
-          <div class="footer-content-title">{{label}}</div>
-          <el-input readonly resize="none" type="textarea" placeholder="请输入内容" :rows="12" v-model="content">
-          </el-input>
-        </div>
-      `
-    })
+    Vue.component('header-item', header_item)
+    Vue.component('arrangement-header', arrangement_header)
+    Vue.component('arrangement-container', arrangement_container)
+    Vue.component('arrangement-footer', arrangement_footer)
     new Vue({
       el: '#arrangement_time',
       data() {
         return {
-          options: [{
-            value: '选项1',
-            label: '黄金糕'
-          }, {
-            value: '选项2',
-            label: '双皮奶'
-          }, {
-            value: '选项3',
-            label: '蚵仔煎'
-          }, {
-            value: '选项4',
-            label: '龙须面'
-          }, {
-            value: '选项5',
-            label: '北京烤鸭'
-          }],
-          examDateVal: '',
-          examTimeVal: '',
-          examDurationVal: '',
-          examBreakVal: '',
-          dayDurationVal: '8',
-          activeName: 'first',
-          radio: 3,
-          tableData: [{
-            date: '第一场',
-            name: '08:00-08:30',
-            address: '24人'
-          }, {
-            date: '第二场',
-            name: '09:30-09:45',
-            address: '24人'
-          }, {
-            date: '第三场',
-            name: '10:15-10:45',
-            address: '24人'
-          }, {
-            date: '第四场',
-            name: '11:00-11:15',
-            address: '24人'
-          }],
-          tips: [{
-            label: '注意事项',
-            content: `1，操作前考生要填写核对考生信息、确认无误后开始考试；
-2，实验操作中要注意操作步骤和动作的准确性，不能损坏实验仪器；
-3，操作完成后要按要求，将实验结果以电子报告的形式进行提交；
-4，考生完成操作后要清洁、整理好实验仪器；
-5，考生要遵守考场纪律，独立完成自己的实验；`
-          }, {
-            label: '考生须知',
-            content: `1，考生抽签进入考场，不准携带任何书籍、实验报告、复习资料等；
-2，考生需抽签入场，考试开始五分钟后不得入场，中途出场者不得再次入场；
-3，考生要听从主考、监考、工作人员指挥，杜绝各类事故的发生
-4，考试时间一到，考生应立即停止操作并退出考场；
-5，无故不参加考试者，视为缺考，成绩一律视为零分。`}, {
-            label: '考场纪律',
-            content: `1、考前10分钟由领考员按场次点名进入候考室，考前5分钟在候考室抽签；
-2、考生持准考证、抽签号进入考场并对号入座，等待考试；
-3、考生需按实验要求清点实验桌上的器材，检查是否有损坏或缺少，如需更换须举手向监考教师申请，不得擅自更换他考生器材；
-4、考试时禁止与他人交谈或偷看他人操作；如有问题须举手申请；
-5、考试进行时，待考考生不得在考室周围逗留、吵闹。`}]
+          subjectNum: null,
+          students: 0,
+          seatNum: 0
         }
       },
+      created() {
+        this.getList()
+      },
       methods: {
-        handleClick(tab, event) {
-          console.log(tab, event);
+        getList() {
+          this.$get('./request/data.json').then(({ data }) => {
+            console.log(data)
+            const { subjectNum, students, seatNum, examinationSite } = data
+            this.subjectNum = subjectNum
+            this.students = students
+            this.seatNum = seatNum
+          })
         }
       }
     })
   </script>
+
 </body>
 
 </html>

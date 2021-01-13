@@ -1,0 +1,12 @@
+{
+  "examinationSite": [
+    "考点1",
+    "考点2",
+    "考点3",
+    "考点4",
+    "考点5"
+  ],
+  "students": 78000,
+  "subjectNum": 2,
+  "seatNum": 4800
+}
